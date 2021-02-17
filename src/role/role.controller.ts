@@ -29,7 +29,7 @@ export class RoleController {
 
   @Get(':id')
   async getUser(@Param('id') id: string) {
-    return this.roleService.findOne({ id: Number(id) });
+    return this.roleService.findOne({ id: Number(id) }, ['permissions']);
   }
 
   @Put(':id')
