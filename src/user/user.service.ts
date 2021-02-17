@@ -15,7 +15,7 @@ export class UserService {
   }
 
   async paginate(page = 1): Promise<any> {
-    const take = 2;
+    const take = 15;
     const [users, total] = await this.userRepository.findAndCount({
       take,
       skip: (page - 1) * take,
