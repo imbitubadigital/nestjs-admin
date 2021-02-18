@@ -15,6 +15,7 @@ import {
 import { OrderService } from './order.service';
 import { Response } from 'express';
 import { Parser } from 'json2csv';
+import { HasPermission } from 'src/permission/has-permisson.dedorator';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @UseGuards(AuthGuard)
@@ -22,11 +23,13 @@ import { Parser } from 'json2csv';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
   @Get('orders')
+  @HasPermission('orders')
   async all(@Query('page') page = 1) {
     return this.orderService.paginate(Number(page), ['order_items']);
   }
 
   @Post('export')
+  @HasPermission('orders')
   async export(@Res() res: Response) {
     const parse = new Parser({
       fields: ['ID', 'Name', 'Email', 'Product Title', 'Price', 'Quantity'],
@@ -63,6 +66,7 @@ export class OrderController {
   }
 
   @Get('chart')
+  @HasPermission('orders')
   async chart() {
     return this.orderService.chart();
   }
