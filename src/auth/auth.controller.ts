@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { UserService } from './../user/user.service';
 import {
   BadRequestException,
@@ -24,6 +25,7 @@ export class AuthController {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly authService: AuthService,
   ) {}
 
   @Post('register')
@@ -69,9 +71,8 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('user')
   async user(@Req() request: Request) {
-    const cookie = request.cookies['jwt'];
-    const data = await this.jwtService.verifyAsync(cookie);
-    return this.userService.findOne({ id: data.id });
+    const id = await this.authService.userId(request);
+    return this.userService.findOne({ id });
   }
 
   @UseGuards(AuthGuard)
