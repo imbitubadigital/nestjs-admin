@@ -1,3 +1,4 @@
+import { UploadController } from './upload.controller';
 import { Product } from './models/produc.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
@@ -7,7 +8,7 @@ import { CommonModule } from 'src/common/common.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Product]), CommonModule],
-  controllers: [ProductController],
+  controllers: [ProductController, UploadController],
   providers: [ProductService],
 })
 export class ProductModule {}
